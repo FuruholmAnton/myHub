@@ -3,7 +3,7 @@ Personal project to learn ReactJS
 
 ## Install
 
-run in ./src
+run in ./
 
 ```terminal
 yarn install
