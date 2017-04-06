@@ -8,6 +8,9 @@ run in ./
 ```terminal
 yarn install
 ```
+```javascript
+gulp
+```
 
 run in ./src
 ```terminal
