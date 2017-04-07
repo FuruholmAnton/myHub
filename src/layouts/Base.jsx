@@ -1,5 +1,7 @@
 import React from 'react';
 import Header from './Header.jsx';
+import Menu from '../components/Menu.jsx';
+import Shadow from '../components/Shadow.jsx';
 
 export default class BaseLayout extends React.Component {
 
@@ -20,6 +22,8 @@ export default class BaseLayout extends React.Component {
     return (
       <div className={"container page-" + title}>
         <Header title={title} />
+        <Menu/>
+        <Shadow/>
 
         <div className="content">{this.props.children}</div>
         

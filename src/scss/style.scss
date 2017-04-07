@@ -79,9 +79,12 @@
 @import "5-modules/footer/extends";
 @import "5-modules/footer/module.footer";
 // Menu
-@import "5-modules/navigation/mixins";
-@import "5-modules/navigation/extends";
-@import "5-modules/navigation/module.navigation";
+// @import "5-modules/menu/mixins";
+// @import "5-modules/menu/extends";
+@import "5-modules/menu/module.menu";
+
+@import "5-modules/shadow/animations";
+@import "5-modules/shadow/module.shadow";
 
 
 

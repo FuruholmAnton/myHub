@@ -19,16 +19,12 @@ export default class Index extends React.Component {
   }
 
   render() {
-    // console.log(this.props);
-    
     return (
       <div>
         <ul className="c-list">
           {
             this.state.routes.map((item) => {
-              {/*console.log(item);*/}
-              if (item.name == 'Home') return false;
-              return <li className="c-list_item">list item {item.name}</li>;
+              return <li className="c-list_item" key={item.name}>list item {item.name}</li>;
             })
           }
         </ul>
