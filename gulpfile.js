@@ -62,7 +62,7 @@ gulp.task('server', function () {
 })
 
 gulp.task('watch', function() {
-    gulp.watch(['src/**/*.jsx', 'src/**/*.js'], gulp.series('webpack'));
+    gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*.js'], gulp.series('webpack'));
     gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
 });
 
