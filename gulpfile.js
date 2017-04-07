@@ -4,6 +4,10 @@ var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('gulp-autoprefixer');
 var uglify = require('gulp-uglify');
 var webpack = require('webpack-stream');
+var nodemon = require('gulp-nodemon');
+var Cache = require('gulp-file-cache');
+
+var cache = new Cache();
 
 var inputSass = './src/scss/**/*.scss';
 var outputSass = './src/static/css';
@@ -34,21 +38,35 @@ gulp.task('compress', function() {
 });
 
 gulp.task('webpack', function() {
-  return gulp.src('../src/index.js')
+  return gulp.src('./src/app-client.js')
     .pipe(webpack( require('./webpack.config.js') ))
     .pipe(gulp.dest('./src/static/js'));
 });
 
-gulp.task('watch', function() {
+gulp.task('server', function () {
+  var stream = nodemon({ 
+      script: 'server/server.js', 
+      ignore: ['src/*'],
+      ext: 'ejs', 
+      env: { 'NODE_ENV': 'development' }
+    })
 
-  gulp
-    .watch(['../src/**/*'], ['webpack'])
-    .on('change', function(event) {
-      console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-    });
+    stream
+      .on('restart', function () {
+        console.log('restarted!')
+      })
+      .on('crash', function() {
+        console.error('Application has crashed!\n')
+         stream.emit('restart', 10)  // restart the server in 10 seconds
+      })
+})
+
+gulp.task('watch', function() {
+    gulp.watch(['src/**/*.jsx', 'src/**/*.js'], gulp.series('webpack'));
+    gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
 });
 
-gulp.task('default', ['webpack', 'watch' /*, possible other tasks... */]);
+gulp.task('default', gulp.parallel('server', gulp.series('sass', 'webpack', 'watch')));
 
 gulp.task('prod', function () {
   return gulp

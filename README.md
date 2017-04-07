@@ -11,8 +11,3 @@ yarn install
 ```javascript
 gulp
 ```
-
-run in ./src
-```terminal
-node server.js
-```
