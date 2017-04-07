@@ -3,12 +3,16 @@ import { Route, IndexRoute } from 'react-router'
 import BaseLayout from './layouts/Base.jsx';
 import IndexPage from './pages/Index.jsx';
 import NotesPage from './pages/Notes.jsx';
+import SingleNotePage from './pages/SingleNote.jsx';
 import NotFoundPage from './pages/NotFound.jsx';
 
 const routes = (
-  <Route path="/" component={BaseLayout}>
+  <Route path="/" name="Home" slug="home" component={BaseLayout}>
     <IndexRoute component={IndexPage}/>
-    <Route path="notes" component={NotesPage}/>
+    <Route path="notes" name="Notes" slug="notes" component={NotesPage} show>
+      <Route path="notes/:id" component={SingleNotePage}/>
+    </Route>
+    <Route path="/test" name="Test" show/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
 );

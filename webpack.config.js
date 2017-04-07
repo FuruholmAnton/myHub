@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+// const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 require("babel-polyfill");
 
 module.exports = {

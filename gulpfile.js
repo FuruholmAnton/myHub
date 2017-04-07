@@ -40,14 +40,17 @@ gulp.task('compress', function() {
 gulp.task('webpack', function() {
   return gulp.src('./src/app-client.js')
     .pipe(webpack( require('./webpack.config.js') ))
+    .on('error', function handleError() {
+      this.emit('end'); // Recover from errors
+    })
     .pipe(gulp.dest('./src/static/js'));
 });
 
 gulp.task('server', function () {
   var stream = nodemon({ 
       script: 'src/server.js', 
-      ignore: [],
-      ext: 'ejs', 
+      ignore: ['src/static/*'],
+      ext: 'ejs js jsx', 
       env: { 'NODE_ENV': 'development' }
     })
 
@@ -62,7 +65,7 @@ gulp.task('server', function () {
 })
 
 gulp.task('watch', function() {
-    gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*.js'], gulp.series('webpack'));
+    gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*!(server).js'], gulp.series('webpack'));
     gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
 });
 
