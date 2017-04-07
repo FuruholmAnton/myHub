@@ -45,8 +45,8 @@ gulp.task('webpack', function() {
 
 gulp.task('server', function () {
   var stream = nodemon({ 
-      script: 'server/server.js', 
-      ignore: ['src/*'],
+      script: 'src/server.js', 
+      ignore: [],
       ext: 'ejs', 
       env: { 'NODE_ENV': 'development' }
     })
