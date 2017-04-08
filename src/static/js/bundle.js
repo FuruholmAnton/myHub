@@ -19256,6 +19256,7 @@ var Notes = function (_React$Component) {
     value: function getNotes() {
       console.log('Getting notes');
 
+      /* Fetching all the notes from the server */
       fetch('/ajax', {
         method: 'POST',
         headers: new Headers({

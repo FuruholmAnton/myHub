@@ -6,7 +6,7 @@ export default class Notes extends React.Component {
   getNotes() {
     console.log('Getting notes');
 
-
+    /* Fetching all the notes from the server */
     fetch('/ajax', {
       method: 'POST',
       headers: new Headers({
