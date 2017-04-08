@@ -8,7 +8,7 @@ This project requires node and yarn.
 https://nodejs.org/en/ <br>
 https://yarnpkg.com/en/docs/install
 
-run in ./
+run following in root folder:
 
 ```terminal
 yarn install
