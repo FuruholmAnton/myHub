@@ -5,7 +5,7 @@ Personal project to learn ReactJS
 
 This project requires node and yarn.
 
-https://nodejs.org/en/
+https://nodejs.org/en/ <br>
 https://yarnpkg.com/en/docs/install
 
 run in ./
