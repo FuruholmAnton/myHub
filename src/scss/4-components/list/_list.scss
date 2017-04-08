@@ -1,6 +1,11 @@
 .c-list {
 
     &_item {
-        padding: 1rem;
+        padding: 1.3rem 1rem;
+        background: #fff;
+
+        & + & {
+            border-top: 1px solid #eee;
+        }
     }
 }

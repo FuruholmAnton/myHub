@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import routes from '../routes';
 
+import List from '../components/List.jsx';
+
 export default class Index extends React.Component {
 
   constructor(props) {
@@ -21,13 +23,7 @@ export default class Index extends React.Component {
   render() {
     return (
       <div>
-        <ul className="c-list">
-          {
-            this.state.routes.map((item) => {
-              return <li className="c-list_item" key={item.name}>list item {item.name}</li>;
-            })
-          }
-        </ul>
+        <List list={this.state.routes}/>
       </div>
     );
   }

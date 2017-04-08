@@ -36687,15 +36687,15 @@
 	
 	var _Index2 = _interopRequireDefault(_Index);
 	
-	var _Notes = __webpack_require__(627);
+	var _Notes = __webpack_require__(628);
 	
 	var _Notes2 = _interopRequireDefault(_Notes);
 	
-	var _SingleNote = __webpack_require__(628);
+	var _SingleNote = __webpack_require__(629);
 	
 	var _SingleNote2 = _interopRequireDefault(_SingleNote);
 	
-	var _NotFound = __webpack_require__(629);
+	var _NotFound = __webpack_require__(630);
 	
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 	
@@ -36703,7 +36703,7 @@
 	
 	var routes = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { path: '/', name: 'Home', slug: 'home', component: _Base2.default },
+	  { path: '/', name: 'myHub', slug: 'myhub', component: _Base2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Index2.default }),
 	  _react2.default.createElement(
 	    _reactRouter.Route,
@@ -36768,6 +36768,13 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	/**
+	 *
+	 *
+	 * @export The base layout
+	 * @class BaseLayout
+	 * @extends {React.Component}
+	 */
 	var BaseLayout = function (_React$Component) {
 	  (0, _inherits3.default)(BaseLayout, _React$Component);
 	
@@ -36778,6 +36785,16 @@
 	
 	  (0, _createClass3.default)(BaseLayout, [{
 	    key: 'getTitle',
+	
+	
+	    /**
+	     *
+	     *
+	     * @param {Array} arr The applications routes
+	     * @returns {String} The title of the page
+	     *
+	     * @memberOf BaseLayout
+	     */
 	    value: function getTitle(arr) {
 	      if ((typeof arr === 'undefined' ? 'undefined' : (0, _typeof3.default)(arr)) != 'object') return;
 	      for (var i = arr.length - 1; i >= 0; i -= 1) {
@@ -36787,6 +36804,15 @@
 	      }
 	      return '';
 	    }
+	
+	    /**
+	     *
+	     *
+	     * @returns {ReactDOM} The base layout
+	     *
+	     * @memberOf BaseLayout
+	     */
+	
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -36795,7 +36821,7 @@
 	      var title = this.getTitle(this.props.routes);
 	      return _react2.default.createElement(
 	        'div',
-	        { className: "container page-" + title },
+	        { className: 'container page-' + title },
 	        _react2.default.createElement(_Header2.default, { title: title }),
 	        _react2.default.createElement(_Menu2.default, null),
 	        _react2.default.createElement(_Shadow2.default, null),
@@ -37669,6 +37695,10 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
+	var _List = __webpack_require__(627);
+	
+	var _List2 = _interopRequireDefault(_List);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Index = function (_React$Component) {
@@ -37699,18 +37729,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'ul',
-	          { className: 'c-list' },
-	          this.state.routes.map(function (item) {
-	            return _react2.default.createElement(
-	              'li',
-	              { className: 'c-list_item', key: item.name },
-	              'list item ',
-	              item.name
-	            );
-	          })
-	        )
+	        _react2.default.createElement(_List2.default, { list: this.state.routes })
 	      );
 	    }
 	  }]);
@@ -37721,6 +37740,88 @@
 
 /***/ },
 /* 627 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _getPrototypeOf = __webpack_require__(470);
+	
+	var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+	
+	var _classCallCheck2 = __webpack_require__(496);
+	
+	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+	
+	var _createClass2 = __webpack_require__(497);
+	
+	var _createClass3 = _interopRequireDefault(_createClass2);
+	
+	var _possibleConstructorReturn2 = __webpack_require__(501);
+	
+	var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+	
+	var _inherits2 = __webpack_require__(548);
+	
+	var _inherits3 = _interopRequireDefault(_inherits2);
+	
+	var _react = __webpack_require__(299);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(556);
+	
+	var _eventEmitter = __webpack_require__(622);
+	
+	var _eventEmitter2 = _interopRequireDefault(_eventEmitter);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var List = function (_React$Component) {
+	    (0, _inherits3.default)(List, _React$Component);
+	
+	    function List(props) {
+	        (0, _classCallCheck3.default)(this, List);
+	
+	        var _this = (0, _possibleConstructorReturn3.default)(this, (List.__proto__ || (0, _getPrototypeOf2.default)(List)).call(this, props));
+	
+	        _this.state = {};
+	
+	        // This binding is necessary to make `this` work in the callback
+	        _this.onClick = _this.onClick.bind(_this);
+	        return _this;
+	    }
+	
+	    (0, _createClass3.default)(List, [{
+	        key: 'onClick',
+	        value: function onClick(e) {}
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'ul',
+	                { className: 'c-list' },
+	                this.props.list.map(function (item) {
+	                    return _react2.default.createElement(
+	                        'li',
+	                        { className: 'c-list_item', key: item.name },
+	                        'list item ',
+	                        item.name
+	                    );
+	                })
+	            );
+	        }
+	    }]);
+	    return List;
+	}(_react2.default.Component);
+	
+	exports.default = List;
+
+/***/ },
+/* 628 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37783,7 +37884,7 @@
 	exports.default = Notes;
 
 /***/ },
-/* 628 */
+/* 629 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37838,7 +37939,7 @@
 	exports.default = SingleNote;
 
 /***/ },
-/* 629 */
+/* 630 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
