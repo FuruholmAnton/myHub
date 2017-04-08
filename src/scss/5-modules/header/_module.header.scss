@@ -33,3 +33,10 @@
 
     }
 }
+
+.header_backButton {
+
+    .page-myHub & {
+        visibility: hidden;
+    }
+}

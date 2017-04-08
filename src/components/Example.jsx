@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 import vent from '../core/eventEmitter.js';
 
 export default class Example extends React.Component {
@@ -22,3 +22,7 @@ export default class Example extends React.Component {
         );
     }
 }
+
+Example.propTypes = {
+  list: React.PropTypes.array.isRequired,
+};

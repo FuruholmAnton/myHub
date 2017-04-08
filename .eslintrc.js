@@ -10,13 +10,15 @@ module.exports = {
     },
     "rules": {
         "semi": 2,
-        "valid-jsdoc": [2, {
+        "require-jsdoc": 0,
+        "valid-jsdoc": [1, {
             "prefer": {
                 "return": "returns"
             },
             "requireReturn": false
         }],
-        "jsx-uses-vars": true,
+        "keyword-spacing": 2,
+        "max-len": 0
     },
     "env": {
         "browser": true,

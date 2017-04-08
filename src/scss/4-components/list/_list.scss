@@ -3,9 +3,17 @@
     &_item {
         padding: 1.3rem 1rem;
         background: #fff;
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        color: color(text);
 
         & + & {
             border-top: 1px solid #eee;
+        }
+
+        &:hover {
+            color: #888;
         }
     }
 }

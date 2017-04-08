@@ -3,11 +3,15 @@ let sass = require('gulp-sass');
 let sourcemaps = require('gulp-sourcemaps');
 let autoprefixer = require('gulp-autoprefixer');
 let uglify = require('gulp-uglify');
-let webpack = require('webpack-stream');
-let nodemon = require('gulp-nodemon');
+let webpackStream = require('webpack-stream');
+let webpack2 = require('webpack'); // Compiles JavaScript
+let nodemon = require('gulp-nodemon'); // Updates server on change
 let Cache = require('gulp-file-cache');
+let notify = require('gulp-notify');
 
-let cache = new Cache();
+let fileCache = new Cache();
+
+let webpackConfig = require('./webpack.config.js');
 
 let inputSass = './src/scss/**/*.scss';
 let outputSass = './src/static/css';
@@ -24,11 +28,14 @@ let autoprefixerOptions = {
 gulp.task('sass', function() {
   return gulp
     .src(inputSass)
+    .pipe(fileCache.filter())
     .pipe(sourcemaps.init())
     .pipe(sass(sassOptions).on('error', sass.logError))
     .pipe(autoprefixer(autoprefixerOptions))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest(outputSass));
+    .pipe(gulp.dest(outputSass))
+    .pipe(fileCache.cache())
+    .pipe(notify('Sass finished'));
 });
 
 gulp.task('compress', function() {
@@ -39,34 +46,42 @@ gulp.task('compress', function() {
 
 gulp.task('webpack', function() {
   return gulp.src('./src/app-client.js')
-    .pipe(webpack( require('./webpack.config.js') ))
+    .pipe(fileCache.filter())
+    .pipe(webpackStream(webpackConfig, webpack2))
     .on('error', function handleError() {
+      notify.onError(function(error) {
+        return 'Error: ' + error.message;
+      });
       this.emit('end'); // Recover from errors
     })
-    .pipe(gulp.dest('./src/static/js'));
+    .pipe(gulp.dest('./src/static/js'))
+    .pipe(fileCache.cache())
+    .pipe(notify('Webpack finished'));
 });
 
 gulp.task('server', function() {
   let stream = nodemon({
-      script: 'src/server.js',
-      ignore: ['src/static/*'],
-      ext: 'ejs js jsx',
-      env: {'NODE_ENV': 'development'},
-    });
+    script: 'src/server.js',
+    ignore: ['src/static/*'],
+    ext: 'ejs js jsx',
+    env: {'NODE_ENV': 'development'},
+  });
 
-    stream
-      .on('restart', function() {
-        console.log('restarted!');
-      })
-      .on('crash', function() {
-        console.error('Application has crashed!\n');
-         stream.emit('restart', 10);  // restart the server in 10 seconds
-      });
+  stream
+    .on('restart', function() {
+      console.log('restarted!');
+      notify('Server restarted');
+    })
+    .on('crash', function() {
+      console.error('Application has crashed!\n');
+      notify('Application has crashed');
+      stream.emit('restart', 10);  // restart the server in 10 seconds
+    });
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*!(server).js'], gulp.series('webpack'));
-    gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
+  gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*!(server).js'], gulp.series('webpack'));
+  gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
 });
 
 gulp.task('default', gulp.parallel('server', gulp.series('sass', 'webpack', 'watch')));

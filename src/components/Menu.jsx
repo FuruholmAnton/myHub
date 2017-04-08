@@ -1,12 +1,15 @@
 
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 import vent from '../core/eventEmitter.js';
+import List from './List.jsx';
+
+import {getRoutesList} from '../core/functions.js';
 
 export default class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isMenuOpen: false };
+    this.state = {isMenuOpen: false};
 
     // This binding is necessary to make `this` work in the callback
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -15,8 +18,8 @@ export default class Menu extends React.Component {
   }
 
   toggleMenu() {
-    this.setState(prevState => ({
-      isMenuOpen: !prevState.isMenuOpen
+    this.setState((prevState) => ({
+      isMenuOpen: !prevState.isMenuOpen,
     }));
     document.body.classList.toggle('menu-is-open');
   }
@@ -24,16 +27,15 @@ export default class Menu extends React.Component {
   closeMenu() {
     document.body.classList.remove('menu-is-open');
     this.setState({
-      isMenuOpen: false
+      isMenuOpen: false,
     });
   }
 
   openMenu() {
     document.body.classList.add('menu-is-open');
     this.setState({
-      isMenuOpen: true
+      isMenuOpen: true,
     });
-    
   }
 
   componentDidMount() {
@@ -44,8 +46,9 @@ export default class Menu extends React.Component {
 
   render() {
     return (
-      <nav className={(this.state.isMenuOpen ? 'is-open' : '') + " menu"}>
-
+      <nav className={(this.state.isMenuOpen ? 'is-open' : '') + ' menu'}>
+        <h2 className="menu_heading">myHub</h2>
+        <List list={getRoutesList()}/>
       </nav>
     );
   }

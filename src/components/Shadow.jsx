@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 import vent from '../core/eventEmitter.js';
 
 export default class Menu extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { isShadowVisible: undefined };
+        this.state = {isShadowVisible: undefined};
 
         // This binding is necessary to make `this` work in the callback
         this.toggleShadow = this.toggleShadow.bind(this);
@@ -19,7 +19,7 @@ export default class Menu extends React.Component {
         // this.setState(prevState => ({
         //     isShadowVisible: !prevState.isShadowVisible
         // }));
-        
+
         if (this.state.isShadowVisible !== true) {
             this.showShadow();
         } else {
@@ -30,15 +30,15 @@ export default class Menu extends React.Component {
     hideShadow() {
         document.body.classList.remove('menu-is-open');
         this.setState({
-            isShadowVisible: false
-        })
+            isShadowVisible: false,
+        });
     }
 
     showShadow() {
         document.body.classList.add('menu-is-open');
         this.setState({
-            isShadowVisible: true
-        })
+            isShadowVisible: true,
+        });
     }
 
     onClick(e) {
@@ -54,7 +54,9 @@ export default class Menu extends React.Component {
 
     render() {
         return (
-            <div onClick={this.onClick} className={(this.state.isShadowVisible ? 'is-visible' : (this.state.isShadowVisible === false ? 'is-hidden' : '')) + " c-shadow"}></div>
+            <div onClick={this.onClick}
+                    className={(this.state.isShadowVisible ? 'is-visible' : (this.state.isShadowVisible === false ? 'is-hidden' : '')) + ' c-shadow'}>
+                </div>
         );
     }
 }

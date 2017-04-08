@@ -30,7 +30,6 @@ export default class BaseLayout extends React.Component {
     return '';
   }
 
-
   /**
    *
    *
@@ -39,8 +38,6 @@ export default class BaseLayout extends React.Component {
    * @memberOf BaseLayout
    */
   render() {
-    // console.log(this.props);
-
     const title = this.getTitle(this.props.routes);
     return (
       <div className={'container page-' + title}>

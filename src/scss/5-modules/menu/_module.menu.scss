@@ -14,4 +14,10 @@
     &.is-open {
         transform: translate3d(0%, 0, 0);
     }
+
+    &_heading {
+        text-align: center;
+        display: block;
+        padding: 3rem 1rem;
+    }
 }

@@ -1,29 +1,35 @@
 const webpack = require('webpack');
 const path = require('path');
-// const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-require("babel-polyfill");
+require('babel-polyfill');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
-    main: ["babel-polyfill", './app-client.js'],
+    main: ['babel-polyfill', './app-client.js'],
   },
   output: {
     path: path.resolve(__dirname, './src/static/js/'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   module: {
     loaders: [
       {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components|public\/)/,
+        test: /\.(js|jsx)$/,
+         include: [
+          path.resolve(__dirname, 'src'),
+        ],
+        exclude: [
+          path.resolve(__dirname, 'src/static'),
+          path.resolve(__dirname, 'src/views'),
+          path.resolve(__dirname, 'src/server*'),
+        ],
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
-      }
-    ]
+        options: {
+          presets: ['es2015', 'react'],
+        },
+      },
+    ],
   },
   plugins: [
     // new webpack.DefinePlugin({
@@ -38,5 +44,5 @@ module.exports = {
     //   beautify: false,
     //   dead_code: true
     // })
-  ]
+  ],
 };
