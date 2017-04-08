@@ -29,14 +29,13 @@
     text-align: center;
     padding: 1rem 1rem 3rem;
 
-    h1 {
-
-    }
 }
 
 .header_backButton {
+    display: flex;
+    align-items: center;
 
-    .page-myHub & {
+    .page-myhub & {
         visibility: hidden;
     }
 }

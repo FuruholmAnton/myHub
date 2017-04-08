@@ -1,15 +1,15 @@
 
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import vent from '../core/eventEmitter.js';
 import List from './List.jsx';
 
-import {getRoutesList} from '../core/functions.js';
+import { getRoutesList } from '../core/functions.js';
 
 export default class Menu extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isMenuOpen: false};
+    this.state = { isMenuOpen: undefined };
 
     // This binding is necessary to make `this` work in the callback
     this.toggleMenu = this.toggleMenu.bind(this);
@@ -29,6 +29,7 @@ export default class Menu extends React.Component {
     this.setState({
       isMenuOpen: false,
     });
+    vent.emit('shadow:hide');
   }
 
   openMenu() {
@@ -46,9 +47,14 @@ export default class Menu extends React.Component {
 
   render() {
     return (
-      <nav className={(this.state.isMenuOpen ? 'is-open' : '') + ' menu'}>
-        <h2 className="menu_heading">myHub</h2>
-        <List list={getRoutesList()}/>
+      <nav className={(this.state.isMenuOpen ? 'is-open' : (this.state.isMenuOpen != null ? 'is-closed' : '')) + ' menu'}>
+        <Link to="/" onClick={() => {
+          vent.emit('menu:close');
+        }}>
+          <h2 className="menu_heading">myHub</h2>
+        </Link>
+
+        <List list={getRoutesList()} closeMenuOnClick />
       </nav>
     );
   }

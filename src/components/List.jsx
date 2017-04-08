@@ -12,6 +12,10 @@ export default class List extends React.Component {
             list: list,
         };
 
+        if (props.closeMenuOnClick) {
+
+        }
+
         // This binding is necessary to make `this` work in the callback
         this.onClick = this.onClick.bind(this);
     }
@@ -25,7 +29,20 @@ export default class List extends React.Component {
             <ul className="c-list">
                 {
                     this.state.list.map((item) => {
-                        return <Link to={item.path} className="c-list_item" key={item.name}>{item.name}</Link>;
+                        if (!this.props.closeMenuOnClick) {
+                            return (<Link to={item.path}
+                                    className="c-list_item"
+                                    key={item.name}>{item.name}
+                                </Link>);
+                        } else {
+                            return (<Link to={item.path}
+                                    className="c-list_item"
+                                    onClick={() => {
+                                        vent.emit('menu:close');
+                                    }}
+                                    key={item.name}>{item.name}
+                                </Link>);
+                        }
                     })
                 }
             </ul>
@@ -35,4 +52,5 @@ export default class List extends React.Component {
 
 List.propTypes = {
   list: React.PropTypes.array.isRequired,
+  closeMenuOnClick: React.PropTypes.bool,
 };

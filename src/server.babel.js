@@ -5,6 +5,9 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './routes';
+import { getData, updateData } from './server/ajax';
+import bodyParser from 'body-parser';
+
 import NotFoundPage from './pages/NotFound.jsx';
 
 // initialize the server and configure support for ejs templates
@@ -16,12 +19,41 @@ app.set('views', path.join(__dirname, 'views'));
 // define the folder that will be used for static assets
 app.use(Express.static(path.join(__dirname, 'static')));
 
+/* Makes it possible to access ajax from req.body */
+app.use(bodyParser.json());
+
+app.post('/ajax', (req, res) => {
+  let body = req.body;
+  let output = {};
+  console.log(req.body);
+
+
+  if (body != null && body.function != null && typeof body.function === 'string') {
+    if (body.function === 'getData') {
+      console.log('AJAX! getData');
+      output = {
+        res: 'From server',
+      };
+    } else if (body.function === 'updateData') {
+      console.log('AJAX! updateData');
+      output = {
+        res: 'From server',
+      };
+    } else {
+      console.log('AJAX! Something went wrong');
+    }
+  } else {
+    console.log('AJAX! Something went wrong');
+  }
+
+  res.json(output);
+});
+
 // universal routing and rendering
 app.get('*', (req, res) => {
   match(
     { routes, location: req.url },
     (err, redirectLocation, renderProps) => {
-
       // in case of error display the error message
       if (err) {
         return res.status(500).send(err.message);
@@ -52,7 +84,7 @@ app.get('*', (req, res) => {
 // start the server
 const port = process.env.PORT || 4000;
 const env = process.env.NODE_ENV || 'production';
-server.listen(port, err => {
+server.listen(port, (err) => {
   if (err) {
     return console.error(err);
   }

@@ -30,7 +30,14 @@ p {
     }
 }
 
-a:not([href]) {
+
+
+a {
     text-decoration: none;
     color: #000;
+
+    p &[href] {
+        text-decoration: underline;
+        color: color(link);
+    }
 }

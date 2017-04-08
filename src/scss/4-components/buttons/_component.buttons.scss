@@ -9,6 +9,7 @@
 	height: 2.5em;
 	line-height: 2.5em;
 	display: inline-block;
+	cursor: pointer;
 
 	&:hover {
 		color: #fff;
@@ -17,7 +18,15 @@
 		background-color: color(main);
 	}
 
+	&:active {
+		background-color: lighten(color(main), 10%);
+	}
+
 	&:visited {
     	background: #f2f2f2;
 	}
+}
+
+.button {
+ @extend %button-round;
 }

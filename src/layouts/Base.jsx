@@ -22,9 +22,19 @@ export default class BaseLayout extends React.Component {
    */
   getTitle(arr) {
     if (typeof arr != 'object') return;
-    for (let i = arr.length-1; i >= 0; i -= 1) {
+    for (let i = arr.length - 1; i >= 0; i -= 1) {
       if (arr[i].name != undefined) {
         return arr[i].name;
+      }
+    }
+    return '';
+  }
+
+  getSlug(arr) {
+    if (typeof arr != 'object') return;
+    for (let i = arr.length - 1; i >= 0; i -= 1) {
+      if (arr[i].slug != undefined) {
+        return arr[i].slug;
       }
     }
     return '';
@@ -39,11 +49,12 @@ export default class BaseLayout extends React.Component {
    */
   render() {
     const title = this.getTitle(this.props.routes);
+    const slug = this.getSlug(this.props.routes);
     return (
-      <div className={'container page-' + title}>
+      <div className={'container page-' + slug}>
         <Header title={title} />
-        <Menu/>
-        <Shadow/>
+        <Menu />
+        <Shadow />
 
         <div className="content">{this.props.children}</div>
 

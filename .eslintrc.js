@@ -18,7 +18,8 @@ module.exports = {
             "requireReturn": false
         }],
         "keyword-spacing": 2,
-        "max-len": 0
+        "max-len": 0,
+        "object-curly-spacing": [2, "always"]
     },
     "env": {
         "browser": true,
