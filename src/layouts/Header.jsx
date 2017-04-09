@@ -6,9 +6,12 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isToggleOn: true,
-      isChildView: false,
+      'isToggleOn': true,
+      'isChildView': false,
+      'back-url': '',
     };
+
+    // vent.on('route:changed', this.setBackURL);
   }
 
   toggleMenu(e) {
@@ -18,14 +21,29 @@ export default class Header extends React.Component {
     vent.emit('shadow:toggle');
   }
 
+  // setBackURL() {
+  //   this.setState({
+  //     'back-url': '',
+  //   });
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log('Header update', this.props);
+
+  //   /* this.setState({
+  //     backURL: this.props.routes[this.props.routes.length - 1],
+  //   });*/
+  // }
+
+
   render() {
     return (
       <header className="header js-header">
-        <Link to="/" className={'header_backButton'}>
+        <Link to={'/' + this.props['back-url']} className={'header_backButton'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
           </svg>
-          myHub
+          {this.props['back-name'] || 'myHub'}
         </Link>
 
         <button onClick={this.toggleMenu} className="header_hamburgerIcon">

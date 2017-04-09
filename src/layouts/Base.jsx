@@ -11,6 +11,12 @@ import Shadow from '../components/Shadow.jsx';
  * @extends {React.Component}
  */
 export default class BaseLayout extends React.Component {
+  /* constructor(props) {
+    super(props);
+    this.state = {
+      'back-url': this.getBackURL(),
+    };
+  }*/
 
   /**
    *
@@ -40,6 +46,23 @@ export default class BaseLayout extends React.Component {
     return '';
   }
 
+  getBackURL() {
+    // console.log('getBackURL()', this.props.routes[this.props.routes.length - 1]);
+
+    return this.props.routes[this.props.routes.length - 1].parent || '';
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps != this.props || prevState != this.state) {
+  //     console.log('Base update');
+
+  //     this.setState({
+  //       backURL: this.getBackURL(),
+  //     });
+  //     return;
+  //   }
+  // }
+
   /**
    *
    *
@@ -52,7 +75,9 @@ export default class BaseLayout extends React.Component {
     const slug = this.getSlug(this.props.routes);
     return (
       <div className={'container page-' + slug}>
-        <Header title={title} />
+        <Header title={title}
+            back-url={this.props.routes[this.props.routes.length - 1]['parent-slug'] || ''}
+            back-name={this.props.routes[this.props.routes.length - 1]['parent-name'] || ''} />
         <Menu />
         <Shadow />
 
@@ -64,3 +89,7 @@ export default class BaseLayout extends React.Component {
     );
   }
 }
+
+BaseLayout.propTypes = {
+  routes: React.PropTypes.array,
+};
