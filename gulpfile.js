@@ -64,7 +64,7 @@ gulp.task('server', function() {
     script: 'src/server.js',
     ignore: ['src/static/*'],
     ext: 'ejs js jsx',
-    env: {'NODE_ENV': 'development'},
+    env: { 'NODE_ENV': 'development' },
   });
 
   stream
@@ -80,7 +80,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*!(server).js'], gulp.series('webpack'));
+  gulp.watch(['./src/!(static)/**/*.jsx', './src/!(static)/**/*.js'], gulp.series('webpack'));
   gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
 });
 
@@ -89,7 +89,7 @@ gulp.task('default', gulp.parallel('server', gulp.series('sass', 'webpack', 'wat
 gulp.task('prod', function() {
   return gulp
     .src(inputSass)
-    .pipe(sass({outputStyle: 'compressed'}))
+    .pipe(sass({ outputStyle: 'compressed' }))
     .pipe(autoprefixer(autoprefixerOptions))
     .pipe(gulp.dest(outputSass));
 });

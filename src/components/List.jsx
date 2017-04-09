@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import vent from '../core/eventEmitter.js';
 
 export default class List extends React.Component {
@@ -25,14 +25,18 @@ export default class List extends React.Component {
     }
 
     render() {
+        console.log(this.props.list);
+
         return (
             <ul className="c-list">
                 {
-                    this.state.list.map((item) => {
+                    this.props.list.map((item) => {
+                        let name = item.name || item.title;
+                        let slug = item.slug || name;
                         if (!this.props.closeMenuOnClick) {
                             return (<Link to={item.path}
                                     className="c-list_item"
-                                    key={item.name}>{item.name}
+                                    key={slug}>{name}
                                 </Link>);
                         } else {
                             return (<Link to={item.path}
@@ -40,7 +44,7 @@ export default class List extends React.Component {
                                     onClick={() => {
                                         vent.emit('menu:close');
                                     }}
-                                    key={item.name}>{item.name}
+                                    key={slug}>{name}
                                 </Link>);
                         }
                     })

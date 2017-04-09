@@ -5,7 +5,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './routes';
-import { getData, updateData } from './server/ajax';
+import { getData, updateData } from './server/functions';
 import bodyParser from 'body-parser';
 
 import NotFoundPage from './pages/NotFound.jsx';
@@ -31,9 +31,12 @@ app.post('/ajax', (req, res) => {
   if (body != null && body.function != null && typeof body.function === 'string') {
     if (body.function === 'getData') {
       console.log('AJAX! getData');
-      output = {
-        res: 'From server',
-      };
+      getData('data/notes.json').then((response) => {
+        output = {
+          data: response,
+        };
+        res.json(output);
+      });
     } else if (body.function === 'updateData') {
       console.log('AJAX! updateData');
       output = {
@@ -45,8 +48,6 @@ app.post('/ajax', (req, res) => {
   } else {
     console.log('AJAX! Something went wrong');
   }
-
-  res.json(output);
 });
 
 // universal routing and rendering

@@ -9,9 +9,8 @@ import NotFoundPage from './pages/NotFound.jsx';
 const routes = (
   <Route path="/" name="myHub" slug="myhub" component={BaseLayout}>
     <IndexRoute component={IndexPage} />
-    <Route path="notes" name="Notes" slug="notes" component={NotesPage} show>
-      <Route path="notes/:id" component={SingleNotePage} />
-    </Route>
+    <Route path="notes" name="Notes" slug="notes" component={NotesPage} show />
+    <Route path="notes/:id" name="Single note" slug="single-note" component={SingleNotePage} />
     <Route path="test" name="Test" slug="test" show />
     <Route path="*" component={NotFoundPage} />
   </Route>
