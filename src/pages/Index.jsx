@@ -1,7 +1,7 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
-import {getRoutesList} from '../core/functions.js';
+import { getRoutesList } from '../core/functions.js';
 
 
 import List from '../components/List.jsx';
@@ -19,8 +19,7 @@ export default class Index extends React.Component {
   render() {
     return (
       <div>
-
-        <h3>All </h3>
+        <h3>All</h3>
         <List list={this.state.routes}/>
       </div>
     );

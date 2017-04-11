@@ -33,10 +33,11 @@ export default class List extends React.Component {
                     this.props.list.map((item) => {
                         let name = item.name || item.title;
                         let slug = item.slug || name;
+                        let key = item.key || Math.floor(Math.random()*20);
                         if (!this.props.closeMenuOnClick) {
                             return (<Link to={item.path}
                                     className="c-list_item"
-                                    key={slug}>{name}
+                                    key={key}>{name}
                                 </Link>);
                         } else {
                             return (<Link to={item.path}
@@ -44,7 +45,7 @@ export default class List extends React.Component {
                                     onClick={() => {
                                         vent.emit('menu:close');
                                     }}
-                                    key={slug}>{name}
+                                    key={key}>{name}
                                 </Link>);
                         }
                     })

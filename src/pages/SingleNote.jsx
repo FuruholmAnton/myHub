@@ -6,7 +6,10 @@ export default class SingleNote extends React.Component {
         console.log('SingleNote');
 
         return (
-            <div></div>
+            <div>
+                <button></button>
+                <textarea className="singleNote_textarea"></textarea>
+            </div>
         );
     }
 }

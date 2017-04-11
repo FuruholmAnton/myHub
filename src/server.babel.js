@@ -7,8 +7,16 @@ import { match, RouterContext } from 'react-router';
 import routes from './routes';
 import { getData, updateData } from './server/functions';
 import bodyParser from 'body-parser';
+import * as firebase from 'firebase-admin';
 
 import NotFoundPage from './pages/NotFound.jsx';
+
+import serviceAccount from './config/firebase.json';
+
+firebase.initializeApp({
+  credential: firebase.credential.cert(serviceAccount),
+  databaseURL: 'https://myhub-c0e0c.firebaseio.com/',
+});
 
 // initialize the server and configure support for ejs templates
 const app = new Express();
@@ -31,7 +39,7 @@ app.post('/ajax', (req, res) => {
   if (body != null && body.function != null && typeof body.function === 'string') {
     if (body.function === 'getData') {
       console.log('AJAX! getData');
-      getData('data/notes.json').then((response) => {
+      getData('data/firebase.json').then((response) => {
         output = {
           data: response,
         };

@@ -11,6 +11,15 @@ module.exports = {
     path: path.resolve(__dirname, './src/static/js/'),
     filename: 'bundle.js',
   },
+  resolve: {
+    alias: {
+      Components: path.resolve(__dirname, './src/components/'),
+      Pages: path.resolve(__dirname, './src/pages/'),
+      Core: path.resolve(__dirname, './src/core/'),
+    },
+    extensions: ['.js', '.jsx'],
+    unsafeCache: true,
+  },
   devtool: 'source-map',
   module: {
     loaders: [
@@ -22,6 +31,8 @@ module.exports = {
         exclude: [
           path.resolve(__dirname, 'src/static'),
           path.resolve(__dirname, 'src/views'),
+          path.resolve(__dirname, 'src/server.js'),
+          path.resolve(__dirname, 'src/server.babel.js'),
           path.resolve(__dirname, 'src/server*'),
         ],
         loader: 'babel-loader',

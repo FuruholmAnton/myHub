@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header.jsx';
 import Menu from '../components/Menu.jsx';
 import Shadow from '../components/Shadow.jsx';
+import vent from '../core/eventEmitter.js';
 
 /**
  *
@@ -62,6 +63,9 @@ export default class BaseLayout extends React.Component {
   //     return;
   //   }
   // }
+  componentDidMount() {
+
+  }
 
   /**
    *
@@ -71,13 +75,15 @@ export default class BaseLayout extends React.Component {
    * @memberOf BaseLayout
    */
   render() {
+    const _this = this;
     const title = this.getTitle(this.props.routes);
     const slug = this.getSlug(this.props.routes);
-    return (
+
+    let content = (
       <div className={'container page-' + slug}>
         <Header title={title}
-            back-url={this.props.routes[this.props.routes.length - 1]['parent-slug'] || ''}
-            back-name={this.props.routes[this.props.routes.length - 1]['parent-name'] || ''} />
+          back-url={this.props.routes[this.props.routes.length - 1]['parent-slug'] || ''}
+          back-name={this.props.routes[this.props.routes.length - 1]['parent-name'] || ''} />
         <Menu />
         <Shadow />
 
@@ -87,6 +93,11 @@ export default class BaseLayout extends React.Component {
         </footer>
       </div>
     );
+
+    return content;
+
+    /* Fetching all the notes from the server */
+    // vent.on('notes:fetched', this.getNotes());
   }
 }
 

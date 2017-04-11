@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import List from '../components/List.jsx';
+import vent from '../core/eventEmitter.js';
 
 export default class Notes extends React.Component {
 
@@ -10,6 +11,8 @@ export default class Notes extends React.Component {
     this.state = {
       notes: [],
     };
+
+    this.getNotes = this.getNotes.bind(this);
   }
 
   componentWillMount() {
@@ -17,47 +20,64 @@ export default class Notes extends React.Component {
 
   componentDidMount() {
     console.log('Getting notes');
+    const _this = this;
+
     /* Fetching all the notes from the server */
-    fetch('/ajax',
-      {
-        method: 'POST',
-        headers: new Headers({
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          function: 'getData',
-          data: 'notes',
-        }),
-      })
-      .then((response) => {
-        let contentType = response.headers.get('content-type');
-        if (contentType && contentType.indexOf('application/json') !== -1) {
-          return response.json().then((json) => {
-            console.log('Data', json);
+    // vent.on('notes:fetched', this.getNotes());
 
-            let arr = [];
-            for (let [key, value] of Object.entries(json.data)) {
-              value.key = key;
-              value.path = '/notes/' + key;
-              arr.push(value);
-            }
-            // console.log(arr);
+    this.provider = new firebase.auth.GoogleAuthProvider();
 
-            this.setState({
-              notes: arr,
-            });
-            return (json);
-          });
-        } else {
-          console.log('Oops, we haven\'t got JSON!', response);
-          return false;
-        }
-      })
-      .catch((err) => {
-        console.log('Error: ', err);
-        return false;
+    if (firebase.auth().currentUser == undefined) {
+      firebase.auth().signInWithPopup(this.provider).then(function(result) {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        let token = result.credential.accessToken;
+        // The signed-in user info.
+        let user = result.user;
+        console.log(user);
+        // vent.emit('notes:fetched');
+        _this.getNotes();
+
+        // ...
+      }).catch(function(error) {
+        // Handle Errors here.
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        // The email of the user's account used.
+        let email = error.email;
+        // The firebase.auth.AuthCredential type that was used.
+        let credential = error.credential;
+        // ...
       });
+    } else {
+      this.getNotes();
+    }
+  }
+
+  getNotes() {
+    const _this = this;
+    let userId = firebase.auth().currentUser.uid;
+    firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      let notes = snapshot.val().notes;
+      console.log(notes);
+      for (let [key, value] of Object.entries(notes)) {
+        firebase.database().ref('/notes/' + key).once('value').then(function(note) {
+          console.log('Note', note.val());
+          let n = note.val();
+          n.key = key;
+          n.path = '/notes/' + key;
+
+          let oldNotes = _this.state.notes;
+          oldNotes.push(n);
+          console.log(oldNotes);
+          _this.setState({
+            notes: oldNotes,
+          });
+        });
+      }
+      // ...
+    }).catch(function(error) {
+      console.log(error);
+    });
   }
 
   render() {

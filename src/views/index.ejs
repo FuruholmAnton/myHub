@@ -9,6 +9,24 @@
   <body>
     <div id="main"><%- markup -%></div>
 
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var firebaseConfig = {
+            apiKey: "AIzaSyCqAObW11P-wk9HUpnVJl5hcTmfsCje9xY",
+            authDomain: "myhub-c0e0c.firebaseapp.com",
+            databaseURL: "https://myhub-c0e0c.firebaseio.com",
+            projectId: "myhub-c0e0c",
+            storageBucket: "myhub-c0e0c.appspot.com",
+            messagingSenderId: "660387755347"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+        console.log('Firebase', firebase);
+        console.log('Database', database);
+    </script>
+
     <script src="/js/bundle.js"></script>
     <script>
       /* https://github.com/WICG/focus-ring */
