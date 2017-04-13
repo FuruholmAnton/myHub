@@ -53,16 +53,6 @@ export default class BaseLayout extends React.Component {
     return this.props.routes[this.props.routes.length - 1].parent || '';
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps != this.props || prevState != this.state) {
-  //     console.log('Base update');
-
-  //     this.setState({
-  //       backURL: this.getBackURL(),
-  //     });
-  //     return;
-  //   }
-  // }
   componentDidMount() {
 
   }
@@ -78,12 +68,18 @@ export default class BaseLayout extends React.Component {
     const _this = this;
     const title = this.getTitle(this.props.routes);
     const slug = this.getSlug(this.props.routes);
+    const routes = this.props.routes;
+    const currentRoute = routes[routes.length - 1];
+    const id = this.props.params.id;
+
 
     let content = (
       <div className={'container page-' + slug}>
         <Header title={title}
-          back-url={this.props.routes[this.props.routes.length - 1]['parent-slug'] || ''}
-          back-name={this.props.routes[this.props.routes.length - 1]['parent-name'] || ''} />
+          back-url={currentRoute['parent-slug'] || ''}
+          back-name={currentRoute['parent-name'] || ''}
+          data-id={this.props.params.id}
+          slug={currentRoute['slug'] || ''} />
         <Menu />
         <Shadow />
 

@@ -16,7 +16,7 @@
 
     .menu-is-open & {
         position: relative;
-        z-index: 10; // shadow is 9
+        z-index: 12; // shadow is 9 or 11
 
         path {
             fill: #fff;

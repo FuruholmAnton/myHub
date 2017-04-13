@@ -1,12 +1,12 @@
 
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 import vent from '../core/eventEmitter.js';
 
 export default class Menu extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {isShadowVisible: undefined};
+        this.state = { isShadowVisible: undefined };
 
         // This binding is necessary to make `this` work in the callback
         this.toggleShadow = this.toggleShadow.bind(this);
@@ -28,14 +28,14 @@ export default class Menu extends React.Component {
     }
 
     hideShadow() {
-        document.body.classList.remove('menu-is-open');
+        document.body.classList.remove('shadow-is-visible');
         this.setState({
             isShadowVisible: false,
         });
     }
 
     showShadow() {
-        document.body.classList.add('menu-is-open');
+        document.body.classList.add('shadow-is-visible');
         this.setState({
             isShadowVisible: true,
         });
@@ -43,7 +43,8 @@ export default class Menu extends React.Component {
 
     onClick(e) {
         this.toggleShadow();
-        vent.emit('menu:close');
+        if (document.body.classList.contains('menu-is-open')) vent.emit('menu:close');
+        if (document.body.classList.contains('createButton-is-open')) vent.emit('createButton:close');
     }
 
     componentDidMount() {

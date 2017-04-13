@@ -80,6 +80,10 @@ export default class Notes extends React.Component {
     });
   }
 
+  createNote() {
+    let newPostKey = firebase.database().ref().child('notes').push().key;
+  }
+
   render() {
     return (
       <nav className="athletes-menu">

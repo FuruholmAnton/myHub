@@ -27,6 +27,7 @@
     "react": "15.3.x",
     "react-dom": "15.3.x",
     "react-router": "2.6.x",
+    "wicg-focus-ring": "^1.0.1",
     "wolfy87-eventemitter": "^5.1.0"
   },
   "devDependencies": {

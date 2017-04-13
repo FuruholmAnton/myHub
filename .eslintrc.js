@@ -19,7 +19,8 @@ module.exports = {
         }],
         "keyword-spacing": 2,
         "max-len": 0,
-        "object-curly-spacing": [2, "always"]
+        "object-curly-spacing": [2, "always"],
+        "brace-style": 0
     },
     "env": {
         "browser": true,

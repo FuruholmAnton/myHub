@@ -33,7 +33,7 @@ export default class List extends React.Component {
                     this.props.list.map((item) => {
                         let name = item.name || item.title;
                         let slug = item.slug || name;
-                        let key = item.key || Math.floor(Math.random()*20);
+                        let key = Math.random();
                         if (!this.props.closeMenuOnClick) {
                             return (<Link to={item.path}
                                     className="c-list_item"

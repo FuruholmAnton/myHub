@@ -8,6 +8,10 @@ body,
     height: 100%;
 }
 
+body {
+    overflow: hidden;
+}
+
 button {
     background: none;
     border: none;

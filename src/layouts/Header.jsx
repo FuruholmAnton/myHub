@@ -9,9 +9,45 @@ export default class Header extends React.Component {
       'isToggleOn': true,
       'isChildView': false,
       'back-url': '',
+      'title': '',
+      'isEditable': false,
     };
 
+    this.id = props['data-id'] || undefined;
+
+    this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+    this.saveTitle = this.saveTitle.bind(this);
+    this.getTitle = this.getTitle.bind(this);
+
     // vent.on('route:changed', this.setBackURL);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.id != nextProps['data-id']) {
+      this.id = nextProps['data-id'];
+      this.setState({
+        title: '',
+      });
+      this.getTitle();
+    }
+  }
+
+  componentDidMount() {
+    this.getTitle();
+  }
+
+  getTitle() {
+    const _this = this;
+    firebase.database().ref(`/notes/${this.id}/title`).once('value').then(function(note) {
+      let n = note.val();
+      console.log(n);
+
+      _this.setState({
+        title: n,
+        isEditable: true,
+      });
+    });
   }
 
   toggleMenu(e) {
@@ -21,20 +57,27 @@ export default class Header extends React.Component {
     vent.emit('shadow:toggle');
   }
 
-  // setBackURL() {
-  //   this.setState({
-  //     'back-url': '',
-  //   });
-  // }
+  saveTitle(name) {
+    console.log('Saving title...', name);
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log('Header update', this.props);
+    return firebase.database().ref(`/notes/${this.id}/title`).set(name).then((response) => {
+      console.log(response);
+    });
+  }
 
-  //   /* this.setState({
-  //     backURL: this.props.routes[this.props.routes.length - 1],
-  //   });*/
-  // }
+  onKeyUp(event) {
+    event.preventDefault();
+    const text = event.target.textContent;
 
+    clearTimeout(this.keyUpTimer);
+    this.keyUpTimer = setTimeout(function() {
+      this.saveTitle(text);
+    }.bind(this), 2000);
+  }
+
+  onChangeTitle(event) {
+    this.setState({ title: event.target.textContent });
+  }
 
   render() {
     return (
@@ -53,7 +96,17 @@ export default class Header extends React.Component {
         </button>
 
         <div className="header_hero">
-          <h1>{this.props.title}</h1>
+          { this.props.slug == 'single-note' ? (
+            <h1 className="header_title"
+                contentEditable={this.state.isEditable}
+                onChange={this.onChangeTitle}
+                onKeyUp={this.onKeyUp}
+                role="textbox">
+              {this.state.title}
+            </h1>
+          ) : (
+              <h1 className="header_title">{this.props.title}</h1>
+          ) }
         </div>
       </header>
     );

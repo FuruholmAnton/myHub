@@ -30,3 +30,44 @@
 .button {
  @extend %button-round;
 }
+
+
+.createButton {
+	$size: 30px;
+	
+	border-radius: 50%;
+	background: color(success);
+	color: #fff;
+	font-size: 1rem;
+	font-weight: 100;
+	box-shadow: 0 2px 4px rgba(#000, 0.2);
+	cursor: pointer;
+	z-index: 10;
+
+	width: $size;
+	height: $size;
+	line-height: $size;
+
+	& + & {
+		margin-top: 10px;
+	}
+
+	&--main {
+		$size: 50px;
+		width: $size;
+		height: $size;
+		line-height: $size;
+		font-size: 2rem;
+	}
+	
+}
+
+.createButton_container {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
