@@ -28,13 +28,11 @@ let autoprefixerOptions = {
 gulp.task('sass', function() {
   return gulp
     .src(inputSass)
-    .pipe(fileCache.filter())
     .pipe(sourcemaps.init())
     .pipe(sass(sassOptions).on('error', sass.logError))
     .pipe(autoprefixer(autoprefixerOptions))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(outputSass))
-    .pipe(fileCache.cache())
     .pipe(notify('Sass finished'));
 });
 
@@ -80,11 +78,10 @@ gulp.task('server', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['./src/!(static/)**/*.jsx', './src/!(static/)**/*.js'], gulp.series('webpack'));
   gulp.watch('src/scss/**/*.scss', gulp.series('sass'));
 });
 
-gulp.task('default', gulp.parallel('server', gulp.series('sass', 'webpack', 'watch')));
+gulp.task('default', gulp.parallel('server'));
 
 gulp.task('prod', function() {
   return gulp

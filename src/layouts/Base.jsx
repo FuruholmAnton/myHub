@@ -12,12 +12,9 @@ import vent from '../core/eventEmitter.js';
  * @extends {React.Component}
  */
 export default class BaseLayout extends React.Component {
-  /* constructor(props) {
+  constructor(props) {
     super(props);
-    this.state = {
-      'back-url': this.getBackURL(),
-    };
-  }*/
+  }
 
   /**
    *
@@ -53,6 +50,7 @@ export default class BaseLayout extends React.Component {
     return this.props.routes[this.props.routes.length - 1].parent || '';
   }
 
+
   componentDidMount() {
 
   }
@@ -71,6 +69,14 @@ export default class BaseLayout extends React.Component {
     const routes = this.props.routes;
     const currentRoute = routes[routes.length - 1];
     const id = this.props.params.id;
+
+    // firebase.auth().onAuthStateChanged(function(user) {
+    //   if (user) {
+    //   } else {
+    //     window.location.href = '/login';
+    //     return false;
+    //   }
+    // });
 
 
     let content = (

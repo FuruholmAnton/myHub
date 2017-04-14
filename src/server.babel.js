@@ -1,3 +1,5 @@
+import 'module-alias/register';
+
 import path from 'path';
 import { Server } from 'http';
 import Express from 'express';
@@ -27,7 +29,7 @@ app.set('views', path.join(__dirname, 'views'));
 // define the folder that will be used for static assets
 app.use(Express.static(path.join(__dirname, 'static')));
 
-/* Makes it possible to access ajax from req.body */
+/* Makes it possible to read from req.body on AJAX calls */
 app.use(bodyParser.json());
 
 app.post('/ajax', (req, res) => {

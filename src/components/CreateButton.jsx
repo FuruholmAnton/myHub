@@ -12,31 +12,65 @@ export default class CreateButton extends React.Component {
         this.onClick = this.onClick.bind(this);
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.ui = {};
+        this.isOpen = false;
     }
 
     componentDidMount() {
+        this.ui.optionsButtons = document.querySelectorAll('.createButton--options');
+
         vent.on('createButton:open', this.open);
         vent.on('createButton:close', this.close);
 
-        this.tl = new TimelineMax();
+        this.tlRotateInMain = new TimelineMax({ paused: true });
+        this.tlRotateInMain.to(this.plusIcon, 0.4, { rotation: 315, transformOrigin: '50% 50%', ease: Expo.easeOut });
+
+        this.tlRotateOutMain = new TimelineMax({ paused: true });
+        this.tlRotateOutMain.to(this.plusIcon, 0.2, { rotation: 0, transformOrigin: '50% 50%', ease: Power2.easeIn });
+        this.tlRotateOutMain.call(() => {
+            document.body.classList.remove('createButton-is-open');
+        });
+
+        this.tlOptionsIn = new TimelineMax({ paused: true });
+        this.tlOptionsIn.call(() => {
+            this.ui.optionsButtons.forEach(function(element) {
+                element.style.visibility = 'visible';
+            }, this);
+        });
+        this.tlOptionsIn.to(this.ui.optionsButtons, 0.5, { css: { opacity: 1, transform: 'translate(0)' } });
+
+        this.tlOptionsOut = new TimelineMax({ paused: true });
+        this.tlOptionsOut.to(this.ui.optionsButtons, 0.3, { y: 100, css: { opacity: 0, transform: 'translateY(100%)' } });
     }
 
     open() {
         document.body.classList.add('createButton-is-open');
-        this.tl.to(this.plusIcon, 0.2, { rotation: 225, transformOrigin: '50% 50%' });
+        this.tlRotateInMain.restart();
+        this.tlOptionsIn.restart();
         vent.emit('shadow:show');
+        this.isOpen = true;
     }
 
     close() {
         const el = document.querySelector('.createButton_plusIcon');
-        this.tl.to(el, 0.2, { rotation: 0, transformOrigin: '50% 50%' });
-        this.tl.call(()=>{
-            document.body.classList.remove('createButton-is-open');
-        });
+        const _this = this;
+
+        this.tlRotateOutMain.restart();
+        this.tlOptionsOut.restart();
+
+        if (document.body.classList.contains('shadow-is-visible')) {
+            vent.emit('shadow:hide');
+        }
+
+        this.isOpen = false;
     }
 
     onClick() {
-        this.open();
+        if (this.isOpen) {
+            this.close();
+        } else {
+            this.open();
+        }
     }
 
     render() {
@@ -45,7 +79,7 @@ export default class CreateButton extends React.Component {
                 {
                     this.props.options.map((item) => {
                         let key = Math.random();
-                        return (<button className={'createButton'} key={key}>test</button>);
+                        return (<button className={'createButton createButton--options'} key={key}>test</button>);
                     })
                 }
                 <button className={'createButton createButton--main'}

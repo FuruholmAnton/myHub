@@ -1,6 +1,5 @@
 
 import React from 'react';
-import CreateButton from '../components/CreateButton';
 
 export default class SingleNote extends React.Component {
     constructor(props) {
@@ -40,7 +39,7 @@ export default class SingleNote extends React.Component {
         firebase.database().ref(`/notes/${this.id}/content`).once('value').then(function(note) {
             let n = note.val();
             _this.setState({
-                content: n,
+                content: n || '',
                 isDisabled: false,
             });
         });
@@ -87,7 +86,7 @@ export default class SingleNote extends React.Component {
         return (
             <div className="singleNote_content">
                 {textarea}
-                <CreateButton options={[1]}/>
+
             </div>
         );
     }

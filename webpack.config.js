@@ -1,11 +1,48 @@
-const webpack = require('webpack');
+require('webpack');
+
 const path = require('path');
-require('babel-polyfill');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// require('babel-polyfill');
+
+const extractSass = new ExtractTextPlugin({
+  // filename: "public/[name].[contenthash].css",
+  filename: path.resolve(__dirname, 'src/static/css/style.css'),
+  disable: process.env.NODE_ENV === 'development',
+  allChunks: true,
+});
+
+const loaders = [
+  {
+    test: /\.(js|jsx)$/,
+    include: [
+      path.resolve(__dirname, 'src'),
+    ],
+    exclude: [
+      path.resolve(__dirname, 'src/static'),
+      path.resolve(__dirname, 'src/views'),
+      path.resolve(__dirname, 'src/server.js'),
+      path.resolve(__dirname, 'src/server.babel.js'),
+      path.resolve(__dirname, 'src/server*'),
+    ],
+    loader: 'babel-loader',
+    options: {
+      presets: ['es2015', 'react'],
+    },
+  },
+  {
+    test: /\.scss$/,
+    include: [
+      path.resolve(__dirname, 'src/scss'),
+    ],
+    loader: extractSass.extract({ fallback: 'style-loader', use: ['css-loader', 'sass-loader'] }),
+  },
+];
+
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   entry: {
-    main: ['babel-polyfill', './app-client.js'],
+    main: [/* 'babel-polyfill', */'./app-client.js'],
   },
   output: {
     path: path.resolve(__dirname, './src/static/js/'),
@@ -22,27 +59,12 @@ module.exports = {
   },
   devtool: 'source-map',
   module: {
-    loaders: [
-      {
-        test: /\.(js|jsx)$/,
-         include: [
-          path.resolve(__dirname, 'src'),
-        ],
-        exclude: [
-          path.resolve(__dirname, 'src/static'),
-          path.resolve(__dirname, 'src/views'),
-          path.resolve(__dirname, 'src/server.js'),
-          path.resolve(__dirname, 'src/server.babel.js'),
-          path.resolve(__dirname, 'src/server*'),
-        ],
-        loader: 'babel-loader',
-        options: {
-          presets: ['es2015', 'react'],
-        },
-      },
-    ],
+    loaders: loaders,
   },
   plugins: [
+
+    extractSass,
+
     // new webpack.DefinePlugin({
     //   'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     // }),

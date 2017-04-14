@@ -4,8 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
     <title>myHub - Anton Furuholm</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+
+    <script src="/js/bundle.js"></script>
   </head>
   <body>
     <div id="main"><%- markup -%></div>
@@ -26,8 +27,7 @@
         var database = firebase.database();
         console.log('Firebase', firebase);
         console.log('Database', database);
-    </script>
 
-    <script src="/js/bundle.js"></script>
+    </script>
   </body>
 </html>

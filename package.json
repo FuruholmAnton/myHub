@@ -4,8 +4,14 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack --watch",
+    "start": "NODE_ENV=development webpack --watch",
     "build": "NODE_ENV=production webpack -p --config ./tools/webpack-production.config.js"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "es2015"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +30,8 @@
     "express": "4.14.x",
     "firebase-admin": "^4.2.0",
     "jsonfile": "^2.4.0",
+    "module-alias": "^2.0.0",
+    "node-sass": "^4.5.2",
     "react": "15.3.x",
     "react-dom": "15.3.x",
     "react-router": "2.6.x",
@@ -34,9 +42,11 @@
     "babel-loader": "6.2.x",
     "browser-sync": "^2.18.8",
     "browser-sync-webpack-plugin": "^1.1.4",
+    "css-loader": "^0.28.0",
     "eslint": "3.19.0",
     "eslint-config-google": "0.7.1",
     "eslint-plugin-react": "^6.10.3",
+    "extract-text-webpack-plugin": "^2.1.0",
     "gulp": "git://github.com/gulpjs/gulp.git#4.0",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-file-cache": "^0.0.1",
@@ -47,8 +57,15 @@
     "gulp-uglify": "^2.1.2",
     "http-server": "0.9.x",
     "nodemon": "^1.11.0",
+    "sass-loader": "^6.0.3",
+    "style-loader": "^0.16.1",
     "webpack": "^2.3.3",
     "webpack-dev-server": "^2.4.2",
     "webpack-stream": "^3.2.0"
+  },
+  "_moduleAliases": {
+    "Components": "src/components",
+    "Pages": "src/pages",
+    "Core": "src/core"
   }
 }

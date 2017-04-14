@@ -14,6 +14,11 @@ run following in root folder:
 ```terminal
 yarn install
 ```
-```javascript
+```terminal
 gulp
+```
+
+open new terminal tab and run:
+```terminal
+yarn start
 ```
