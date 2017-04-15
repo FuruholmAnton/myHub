@@ -133,12 +133,13 @@ export default class BaseLayout extends React.Component {
           data-id={this.props.params.id}
           slug={currentRoute['slug'] || ''} />
         <Menu />
-        <Shadow />
+
 
         <div className="content" ref={(ref) => { this.ui.content = ref; }}>
           <div className="content_inner">
             {this.props.children}
           </div>
+          <Shadow />
         </div>
 
         <div className="notification">

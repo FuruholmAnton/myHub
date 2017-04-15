@@ -42,6 +42,7 @@ export default class CreateButton extends React.Component {
 
         this.tlOptionsOut = new TimelineMax({ paused: true });
         this.tlOptionsOut.to(this.ui.optionsButtons, 0.3, { y: '-30%', opacity: 0 });
+        this.tlOptionsOut.set(this.ui.optionsButtons, { visibility: 'hidden' });
     }
 
     open() {

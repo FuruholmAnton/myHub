@@ -59,7 +59,6 @@
     right: 0;
 
     .menu-is-open & {
-        position: relative;
         z-index: 12; // shadow is 9 or 11
 
         path {
