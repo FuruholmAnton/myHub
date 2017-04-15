@@ -25,8 +25,6 @@ export default class List extends React.Component {
     }
 
     render() {
-        console.log(this.props.list);
-
         return (
             <ul className="c-list">
                 {

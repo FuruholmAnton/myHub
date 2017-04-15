@@ -53,9 +53,10 @@ module.exports = {
       Components: path.resolve(__dirname, './src/components'),
       Pages: path.resolve(__dirname, './src/pages'),
       Core: path.resolve(__dirname, './src/core'),
+      SVG: path.resolve(__dirname, './src/svg'),
     },
     extensions: ['.js', '.jsx'],
-    unsafeCache: true,
+    // unsafeCache: true,
   },
   devtool: 'source-map',
   module: {

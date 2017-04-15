@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "babel-loader": "6.2.x",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "browser-sync": "^2.18.8",
     "browser-sync-webpack-plugin": "^1.1.4",
     "css-loader": "^0.28.0",
@@ -66,6 +67,7 @@
   "_moduleAliases": {
     "Components": "src/components",
     "Pages": "src/pages",
+    "SVG": "src/svg",
     "Core": "src/core"
   }
 }

@@ -33,7 +33,7 @@
 
 
 .createButton {
-	$size: 30px;
+	$size: 40px;
 	
 	border-radius: 50%;
 	background: color(success);
@@ -53,7 +53,7 @@
 	}
 
 	&--main {
-		$size: 50px;
+		$size: 60px;
 		width: $size;
 		height: $size;
 		line-height: $size;
@@ -65,6 +65,15 @@
 		visibility: hidden;
 		opacity: 0;
 		transform: translateY(100%);
+		display: flex;
+    	justify-content: center;
+    	align-items: center;
+
+		svg {
+			fill: #fff;
+			max-width: 90%;
+			max-height: 90%;
+		}	
 	}
 	
 }

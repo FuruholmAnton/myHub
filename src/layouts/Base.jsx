@@ -14,6 +14,21 @@ import vent from '../core/eventEmitter.js';
 export default class BaseLayout extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      sizeClass: 'header-is-big',
+    };
+
+    this.ui = {};
+
+    if (this.getSlug() == 'single-note') {
+      if (this.state.sizeClass != 'header-is-small') {
+        this.state.sizeClass = 'header-is-small';
+      }
+    } else {
+      if (this.state.sizeClass != 'header-is-big') {
+        this.state.sizeClass = 'header-is-big';
+      }
+    }
   }
 
   /**
@@ -24,7 +39,7 @@ export default class BaseLayout extends React.Component {
    *
    * @memberOf BaseLayout
    */
-  getTitle(arr) {
+  getTitle(arr = this.props.routes) {
     if (typeof arr != 'object') return;
     for (let i = arr.length - 1; i >= 0; i -= 1) {
       if (arr[i].name != undefined) {
@@ -34,7 +49,7 @@ export default class BaseLayout extends React.Component {
     return '';
   }
 
-  getSlug(arr) {
+  getSlug(arr = this.props.routes) {
     if (typeof arr != 'object') return;
     for (let i = arr.length - 1; i >= 0; i -= 1) {
       if (arr[i].slug != undefined) {
@@ -53,6 +68,37 @@ export default class BaseLayout extends React.Component {
 
   componentDidMount() {
 
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.routes !== nextProps.routes) {
+      console.log('Base, Changed route');
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.getSlug() == 'single-note') {
+      if (this.state.sizeClass != 'header-is-small') {
+        this.setState({
+          sizeClass: 'header-is-small',
+        });
+        let tl = new TimelineMax();
+        tl.set(this.ui.content, { paddingTop: 0, y: 160 });
+        tl.to(this.ui.content, 0.4, { y: 60 });
+        tl.set(this.ui.content, { paddingTop: 60, y: 0 });
+      }
+    } else {
+      if (this.state.sizeClass != 'header-is-big') {
+        this.setState({
+          sizeClass: 'header-is-big',
+        });
+        let tl = new TimelineMax();
+        tl.set(this.ui.content, { paddingTop: 0, y: 60 });
+        tl.to(this.ui.content, 0.4, { y: 100 });
+        tl.set(this.ui.content, { paddingTop: 160, y: 0 });
+      }
+    }
   }
 
   /**
@@ -80,7 +126,7 @@ export default class BaseLayout extends React.Component {
 
 
     let content = (
-      <div className={'container page-' + slug}>
+      <div className={`${this.state.sizeClass} container page-` + slug}>
         <Header title={title}
           back-url={currentRoute['parent-slug'] || ''}
           back-name={currentRoute['parent-name'] || ''}
@@ -89,7 +135,15 @@ export default class BaseLayout extends React.Component {
         <Menu />
         <Shadow />
 
-        <div className="content">{this.props.children}</div>
+        <div className="content" ref={(ref) => { this.ui.content = ref; }}>
+          <div className="content_inner">
+            {this.props.children}
+          </div>
+        </div>
+
+        <div className="notification">
+          <div className="notification_content"></div>
+        </div>
 
         <footer>
         </footer>

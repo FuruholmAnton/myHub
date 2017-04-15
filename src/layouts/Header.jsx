@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import vent from '../core/eventEmitter.js';
+import vent from 'Core/eventEmitter.js';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -9,45 +9,93 @@ export default class Header extends React.Component {
       'isToggleOn': true,
       'isChildView': false,
       'back-url': '',
-      'title': '',
-      'isEditable': false,
+      'title': props.title,
     };
+
+    this.ui = {};
 
     this.id = props['data-id'] || undefined;
 
-    this.onChangeTitle = this.onChangeTitle.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-    this.saveTitle = this.saveTitle.bind(this);
-    this.getTitle = this.getTitle.bind(this);
-
-    // vent.on('route:changed', this.setBackURL);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.id != nextProps['data-id']) {
-      this.id = nextProps['data-id'];
-      this.setState({
-        title: '',
-      });
-      this.getTitle();
+    if (props.slug == 'single-note') {
+      this.state.sizeClass = 'is-small';
+    } else {
+      this.state.sizeClass = 'is-big';
     }
   }
 
   componentDidMount() {
-    this.getTitle();
+
   }
 
-  getTitle() {
-    const _this = this;
-    firebase.database().ref(`/notes/${this.id}/title`).once('value').then(function(note) {
-      let n = note.val();
-      console.log(n);
+  componentWillReceiveProps(nextProps) {
+    /* Changed route */
+    if (this.props.title !== nextProps.title) {
+      const _this = this;
+      console.log('Header, Changed route');
 
-      _this.setState({
-        title: n,
-        isEditable: true,
+      let changeToSmall = false;
+      let changeToBig = false;
+
+      if (nextProps.slug == 'single-note') {
+        if (this.state.sizeClass != 'is-small') {
+          changeToSmall = true;
+        }
+      } else {
+        if (this.state.sizeClass != 'is-big') {
+          changeToBig = true;
+        }
+      }
+
+      let tl = new TimelineMax();
+
+
+      if (changeToSmall) {
+        /* Scales down */
+        tl.set(this.ui.header, { height: 60 });
+        tl.to(this.ui.title, 0.4, { scale: 0.5, y: '0%' });
+        /* Slides above */
+        tl.to(this.ui.title, 0.4, { y: -60 }, '=0.2');
+      } else if (changeToBig) {
+        tl.set(this.ui.header, { height: 160 });
+        tl.to(this.ui.title, 0.4, { scale: 1, y: '100%' });
+        tl.to(this.ui.title, 0.4, { y: 100 }, '=0');
+      } else {
+        /* TODO: If going up the later then slide up vice versa */
+        tl.fromTo(this.ui.title, 0.4, { y: '100%' }, { y: 100 });
+      }
+
+      // // tl.to(this.ui.title, 0.6, { opacity: 0 });
+
+
+      // /* Change title */
+      tl.call(() => {
+        _this.setState({
+          title: nextProps.title,
+        });
+
+        if (changeToSmall) {
+          this.setState({
+            sizeClass: 'is-small',
+          });
+        } else if (changeToBig) {
+          this.setState({
+            sizeClass: 'is-big',
+          });
+        }
       });
-    });
+
+      if (changeToSmall) {
+        /* Slides up from below */
+        tl.fromTo(this.ui.title, 0.4, { y: 60 }, { y: 0 });
+      } else if (changeToBig) {
+        /* Slides down from above */
+        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 0 });
+      } else {
+        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: '100%' });
+      }
+
+      // tl.to(this.ui.title, 0.6, { opacity: 1 });
+    }
   }
 
   toggleMenu(e) {
@@ -57,31 +105,9 @@ export default class Header extends React.Component {
     vent.emit('shadow:toggle');
   }
 
-  saveTitle(name) {
-    console.log('Saving title...', name);
-
-    return firebase.database().ref(`/notes/${this.id}/title`).set(name).then((response) => {
-      console.log(response);
-    });
-  }
-
-  onKeyUp(event) {
-    event.preventDefault();
-    const text = event.target.textContent;
-
-    clearTimeout(this.keyUpTimer);
-    this.keyUpTimer = setTimeout(function() {
-      this.saveTitle(text);
-    }.bind(this), 2000);
-  }
-
-  onChangeTitle(event) {
-    this.setState({ title: event.target.textContent });
-  }
-
   render() {
     return (
-      <header className="header js-header">
+      <header className={`header js-header ${this.state.sizeClass}`} ref={(ref) => { this.ui.header = ref; }}>
         <Link to={'/' + this.props['back-url']} className={'header_backButton'}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
@@ -96,18 +122,9 @@ export default class Header extends React.Component {
         </button>
 
         <div className="header_hero">
-          { this.props.slug == 'single-note' ? (
-            <h1 className="header_title"
-                contentEditable={this.state.isEditable}
-                onChange={this.onChangeTitle}
-                onKeyUp={this.onKeyUp}
-                role="textbox">
-              {this.state.title}
-            </h1>
-          ) : (
-              <h1 className="header_title">{this.props.title}</h1>
-          ) }
+          <h1 className="header_title" ref={(ref) => { this.ui.title = ref; }}>{this.state.title}</h1>
         </div>
+
       </header>
     );
   }
