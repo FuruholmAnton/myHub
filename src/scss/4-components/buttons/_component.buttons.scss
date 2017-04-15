@@ -42,7 +42,7 @@
 	font-weight: 100;
 	box-shadow: 0 2px 4px rgba(#000, 0.2);
 	cursor: pointer;
-	z-index: 9;
+	
 
 	width: $size;
 	height: $size;
@@ -79,9 +79,10 @@
 }
 
 .createButton_container {
-	position: absolute;
+	position: fixed;
 	bottom: 1rem;
 	right: 1rem;
+	z-index: 10;
 
 	display: flex;
 	flex-direction: column;

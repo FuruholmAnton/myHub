@@ -87,15 +87,19 @@
 }
 
 .header_title {
-    // transition: transform 0.6s ease-in-out;
     transform-origin: top;
     transform: translateY(100%);
+    font-weight: 300;
+    
+    color: #444;
 
     .is-small & {
         transform: scale(0.5) translate(0);
+        margin-top: -6px;
+        color: #b9b9b9;
     }
 
     .is-big & {
-        transform: scale(1) translateY(100%);
+        transform: scale(1) translate(0%, 100%) matrix(1, 0, 0, 1, 0, 40);;
     }
 }

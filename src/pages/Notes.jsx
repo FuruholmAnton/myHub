@@ -67,7 +67,6 @@ export default class Notes extends React.Component {
   render() {
     return (
       <nav className="athletes-menu">
-        {this.props.route.name}!
         <List list={this.state.notes} />
 
         <CreateButton options={[

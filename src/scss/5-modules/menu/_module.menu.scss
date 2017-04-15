@@ -35,5 +35,9 @@
         text-align: center;
         display: block;
         padding: 3rem 1rem;
+
+        &--first {
+            font-weight: 300;
+        }
     }
 }

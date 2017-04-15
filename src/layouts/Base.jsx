@@ -95,7 +95,7 @@ export default class BaseLayout extends React.Component {
         });
         let tl = new TimelineMax();
         tl.set(this.ui.content, { paddingTop: 0, y: 60 });
-        tl.to(this.ui.content, 0.4, { y: 100 });
+        tl.to(this.ui.content, 0.4, { y: 160 });
         tl.set(this.ui.content, { paddingTop: 160, y: 0 });
       }
     }

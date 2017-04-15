@@ -19,7 +19,6 @@ export default class Index extends React.Component {
   render() {
     return (
       <div>
-        <h3>All</h3>
         <List list={this.state.routes}/>
       </div>
     );

@@ -51,7 +51,7 @@ export default class Menu extends React.Component {
         <Link to="/" onClick={() => {
           vent.emit('menu:close');
         }}>
-          <h2 className="menu_heading">myHub</h2>
+          <h2 className="menu_heading"><span className="menu_heading--first">my</span>Hub</h2>
         </Link>
 
         <List list={getRoutesList()} closeMenuOnClick />

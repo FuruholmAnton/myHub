@@ -58,7 +58,7 @@ export default class Header extends React.Component {
       } else if (changeToBig) {
         tl.set(this.ui.header, { height: 160 });
         tl.to(this.ui.title, 0.4, { scale: 1, y: '100%' });
-        tl.to(this.ui.title, 0.4, { y: 100 }, '=0');
+        tl.to(this.ui.title, 0.4, { y: 100 });
       } else {
         /* TODO: If going up the later then slide up vice versa */
         tl.fromTo(this.ui.title, 0.4, { y: '100%' }, { y: 100 });
@@ -89,9 +89,9 @@ export default class Header extends React.Component {
         tl.fromTo(this.ui.title, 0.4, { y: 60 }, { y: 0 });
       } else if (changeToBig) {
         /* Slides down from above */
-        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 0 });
+        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 40 });
       } else {
-        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: '100%' });
+        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 40 });
       }
 
       // tl.to(this.ui.title, 0.6, { opacity: 1 });

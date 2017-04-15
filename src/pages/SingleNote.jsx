@@ -49,24 +49,36 @@ export default class SingleNote extends React.Component {
     getContent() {
         const _this = this;
         firebase.database().ref(`/notes/${this.id}/content`).once('value').then(function(note) {
-            let n = note.val();
+            let newContent = note.val();
+
+            let tl = new TimelineMax();
+            tl.set(_this.ui.textarea, { opacity: 0 });
+
+            _this.ui.textarea.value = newContent;
+
             _this.setState({
-                content: n || '',
                 isDisabled: false,
             });
+
+            tl.to(_this.ui.textarea, 0.4, { opacity: 1 });
         });
     }
 
     getTitle() {
         const _this = this;
         firebase.database().ref(`/notes/${this.id}/title`).once('value').then(function(note) {
-            let n = note.val();
-            console.log(n);
+            let newTitle = note.val();
+
+            let tl = new TimelineMax();
+            tl.set(_this.ui.title, { opacity: 0 });
+
+            _this.ui.title.innerHTML = newTitle;
 
             _this.setState({
-                title: n,
                 isEditable: true,
             });
+
+            tl.to(_this.ui.title, 0.6, { opacity: 1 });
         });
     }
 
@@ -120,14 +132,14 @@ export default class SingleNote extends React.Component {
         if (this.state.isDisabled) {
             textarea = (<textarea className="singleNote_textarea"
                 onKeyUp={this.onContentKeyUp}
-                value={this.state.content}
                 onChange={this.onChangeTextArea}
+                ref={(ref) => { this.ui.textarea = ref; }}
                 disabled></textarea>);
         } else {
             textarea = (<textarea className="singleNote_textarea"
                 onKeyUp={this.onContentKeyUp}
-                value={this.state.content}
                 onChange={this.onChangeTextArea}
+                ref={(ref) => { this.ui.textarea = ref; }}
                 ></textarea>);
         }
 
@@ -137,11 +149,11 @@ export default class SingleNote extends React.Component {
                     contentEditable={this.state.isEditable}
                     onChange={this.onChangeTitle}
                     onKeyUp={this.onTitleKeyUp}
-                    ref={(ref) => { this.ui.title = ref; }}
-                    role="textbox">
-                    {this.state.title}
+                    ref={(ref) => { this.ui.title = ref; }}>
+
                 </h1>
                 <div className="singleNote_content" ref={(ref) => { this.ui.content = ref; }}>
+                    <div className="placeholder"></div>
                     {textarea}
                 </div>
             </div>
