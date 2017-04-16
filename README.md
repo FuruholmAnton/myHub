@@ -14,11 +14,13 @@ run following in root folder:
 ```terminal
 yarn install
 ```
-```terminal
-gulp
-```
 
 open new terminal tab and run:
 ```terminal
 yarn start
+```
+
+new tab/window:
+```terminal
+yarn server
 ```

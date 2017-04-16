@@ -99,6 +99,6 @@
     }
 
     .is-big & {
-        transform: scale(1) translate(0%, 100%) matrix(1, 0, 0, 1, 0, 40);;
+        transform: scale(1) matrix(1, 0, 0, 1, 0, 80);
     }
 }

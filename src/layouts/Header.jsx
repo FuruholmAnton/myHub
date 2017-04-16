@@ -48,20 +48,21 @@ export default class Header extends React.Component {
 
       let tl = new TimelineMax();
 
-
+      /* Move out of the viewport */
       if (changeToSmall) {
         /* Scales down */
         tl.set(this.ui.header, { height: 60 });
         tl.to(this.ui.title, 0.4, { scale: 0.5, y: '0%' });
-        /* Slides above */
-        tl.to(this.ui.title, 0.4, { y: -60 }, '=0.2');
+        /* Slides up */
+        tl.to(this.ui.title, 0.4, { y: -60, ease: Power2.easeIn }, '=0.2');
       } else if (changeToBig) {
         tl.set(this.ui.header, { height: 160 });
-        tl.to(this.ui.title, 0.4, { scale: 1, y: '100%' });
-        tl.to(this.ui.title, 0.4, { y: 100 });
+        tl.to(this.ui.title, 0.4, { scale: 1, y: 60 });
+        tl.to(this.ui.title, 0.4, { y: 100, ease: Power2.easeIn });
       } else {
         /* TODO: If going up the later then slide up vice versa */
-        tl.fromTo(this.ui.title, 0.4, { y: '100%' }, { y: 100 });
+        /* Slides down */
+        tl.fromTo(this.ui.title, 0.6, { y: 80 }, { y: 140, ease: Power2.easeIn });
       }
 
       // // tl.to(this.ui.title, 0.6, { opacity: 0 });
@@ -84,14 +85,16 @@ export default class Header extends React.Component {
         }
       });
 
+      /* Move into the viewport */
       if (changeToSmall) {
         /* Slides up from below */
         tl.fromTo(this.ui.title, 0.4, { y: 60 }, { y: 0 });
       } else if (changeToBig) {
         /* Slides down from above */
-        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 40 });
+        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 80 });
       } else {
-        tl.fromTo(this.ui.title, 0.4, { y: -100 }, { y: 40 });
+        /* Random value above the viewport */
+        tl.fromTo(this.ui.title, 0.4, { y: -140 }, { y: 80 });
       }
 
       // tl.to(this.ui.title, 0.6, { opacity: 1 });

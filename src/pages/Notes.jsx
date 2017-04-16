@@ -67,7 +67,7 @@ export default class Notes extends React.Component {
   render() {
     return (
       <nav className="athletes-menu">
-        <List list={this.state.notes} />
+        <List list={this.state.notes} expandable />
 
         <CreateButton options={[
             {
