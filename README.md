@@ -13,14 +13,10 @@ run following in root folder:
 
 ```terminal
 yarn install
-```
-
-open new terminal tab and run:
-```terminal
 yarn start
 ```
 
-new tab/window:
+open new terminal tab and run:
 ```terminal
 yarn server
 ```
